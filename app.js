@@ -48,6 +48,13 @@ const userCreationSchema = joi.object().keys({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get('/' , async (req, res) => {
+    res.status(400).json({
+        message: 'Welcome to nodejs express app'
+    });
+}
+)
+
 app.post('/user', async (req, res) => {
     try {
     const {error , value} = userCreationSchema.validate(req.body);
