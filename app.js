@@ -3,6 +3,8 @@
 
 // api server link : https://node-test-cfb9.onrender.com/
 
+// hosted on render might take time to start the server since it cold boots. STAY PATIENT
+
 //importing necessary modules
 const express = require('express');
 const bodyParser = require('body-parser');
