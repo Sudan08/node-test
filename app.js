@@ -1,3 +1,5 @@
+
+//importing necessary modules
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -6,10 +8,13 @@ const fs = require('fs').promises;
 const { v4 : uuidv4 } = require('uuid');
 const filePath = './database/data.json';
 
+// regular expression to check password
 const PASSWORD_REGEX = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!.@#$%^&*])(?=.{8,})"
 );
 
+
+// function to check if email or username already exists
 const checkDublicateEmailOrUsername = async (email, username) => {
     try {
     const data = await fs.readFile(filePath, 'utf8');
@@ -24,6 +29,8 @@ const checkDublicateEmailOrUsername = async (email, username) => {
     }
 };
 
+
+// function to save data on file
 const saveOnFile =  async (newData) => {
     try {
         const oldData = await fs.readFile(filePath, 'utf8');
@@ -39,21 +46,28 @@ const saveOnFile =  async (newData) => {
     }
     
 }
+
+// schema for user creation using joi validator
 const userCreationSchema = joi.object().keys({
     username: joi.string().alphanum().min(3).max(30).required(),
     email: joi.string().email().required(),
     password: joi.string().regex(PASSWORD_REGEX).required(),
 });
 
+
+// middleware to parse request body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// endpoint to check if the server is working
 app.get('/' , async (req, res) => {
     res.status(400).json({
-        message: 'Welcome to nodejs express app'
+        message: 'Welcome to nodejs express app',
+        instruction : "Use /user endpoint to create a user body should be : {username: 'username', email: 'email', password: 'password'}" ,
     });
 }
 )
+
 
 app.post('/user', async (req, res) => {
     try {
