@@ -50,15 +50,6 @@ const saveOnFile =  async (newData) => {
     }
     
 }
-const readFileData = async(filePath) => {
-    try {
-        const data = await fs.readFile(filePath, 'utf8');
-        const obj = JSON.parse(data);
-        return obj;
-    } catch (error) {
-        throw error;
-    }
-}
 
 // schema for user creation using joi validator
 const userCreationSchema = joi.object().keys({
@@ -107,28 +98,6 @@ app.post('/user', async (req, res) => {
     }}
      catch (error) {
         console.error('Error creating user', error);
-        return res.status(400).json({
-            message: error.message,
-            error: error.details
-        });
-    }
-    } 
-);
-
-app.get('/user', async (req, res) => {
-    try {
-        const fileData = await readFileData(filePath);
-        const filterData = fileData.data.map(element => {
-            return {
-                id: element.id,
-                username: element.username,
-                email: element.email,
-            }
-        });
-        return res.json(filterData);
-    }
-     catch (error) {
-        console.error('Error reding data', error);
         return res.status(400).json({
             message: error.message,
             error: error.details
