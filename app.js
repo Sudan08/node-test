@@ -25,7 +25,6 @@ const checkDublicateEmailOrUsername = async (email, username) => {
     try {
     const data = await fs.readFile(filePath, 'utf8');
     const obj = JSON.parse(data);
-        console.log(email   , username);
         const duplicate = obj.data.some(element => element.email === email || element.username === username);
         if (duplicate) {
             throw Error('Email or username already exists');
@@ -46,7 +45,6 @@ const saveOnFile =  async (newData) => {
         obj.data.push(newData);
         const data = JSON.stringify(obj, null, 2); 
         await fs.writeFile(filePath, data);
-        console.log('Data saved successfully');
     } catch (error) {
         throw error;
     }
